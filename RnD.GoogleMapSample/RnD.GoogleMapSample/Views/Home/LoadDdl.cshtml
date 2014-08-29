@@ -1,0 +1,327 @@
+﻿@{
+    ViewBag.Title = "Load Map Page";
+}
+<div id="indexPage">
+    <div>
+        <h2>
+            Load Google Map With Multiple Location
+        </h2>
+    </div>
+    <div>
+        <button id="btnMapDataList">Load Map Multiple Location</button>
+    </div>
+    <div id="loadMap3" style="width: 400px; height: 250px">
+    </div>
+    <hr />
+    <div>
+        <h2>
+            Load Google Map With Multiple Location
+        </h2>
+    </div>
+    <div>
+       <select id="DistrictId" name="DistrictId" class="ddlDistrict">
+            <option value="0">-- Select --</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+
+        <select id="UpazilaId" name="UpazilaId" class="ddlUpazila">
+            <option value="0">-- Select --</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+        </select> 
+    </div>
+    <div id="loadMap" style="width: 400px; height: 250px">
+    </div>
+</div>
+<script type="text/javascript">
+
+    function MapLoader(mapDivId, latitude, longitude, markerLabel) {
+
+        LoadMap(mapDivId, latitude, longitude, markerLabel);
+
+        google.maps.event.addDomListener(window, 'load', LoadMap);
+    }
+
+    function MapLoaderWithMarkLocationByDivId(mapDivId, latitude, longitude, message) {
+
+        LoadMapWithMarkLocation(mapDivId, latitude, longitude, message);
+
+        google.maps.event.addDomListener(window, 'load', LoadMapWithMarkLocation);
+    }
+
+    function MapLoaderWithMarkLocationListByDivId(mapDivId, dataList) {
+
+        MarkLocationList(mapDivId, dataList);
+
+        google.maps.event.addDomListener(window, 'load', MarkLocationList);
+    }
+
+    function MapLoaderWithMarkLocationByObj(latitude, longitude, message, googleMap) {
+
+        MarkLocation(latitude, longitude, message, googleMap);
+
+        google.maps.event.addDomListener(window, 'load', MarkLocation);
+    }
+
+    function MarkLocation(latitude, longitude, message, googleMap) {
+
+        if (latitude && longitude) {
+
+            var point = new google.maps.LatLng(latitude, longitude);
+
+            if (point) {
+                var marker = new google.maps.Marker({
+                    position: point,
+                    map: googleMap,
+                    title: message
+                });
+                var infowindow = new google.maps.InfoWindow({
+                    content: message
+                });
+                google.maps.event.addListener(marker, 'mouseover', function () {
+                    infowindow.open(googleMap, marker);
+                });
+                google.maps.event.addListener(marker, 'mouseout', function () {
+                    infowindow.close(googleMap, marker);
+                });
+
+                googleMap.setCenter(point, 13);
+            }
+        }
+        else if (latitude) {
+
+            this.googleMap.setCenter(latitude, 13);
+            if (paramSearchtype == "") {
+                this.googleMap.addOverlay(new GMarker(latitude));
+            }
+
+        }
+    }
+
+    function MarkLocationList(mapDivId, dataList) {
+
+        var myLatlng = new google.maps.LatLng(-25.363882, 131.044922);
+        var mapOptions = {
+            zoom: 13,
+            center: myLatlng
+        };
+
+        var mapElementId = document.getElementById(mapDivId);
+
+        var googleMap = new google.maps.Map(mapElementId, mapOptions);
+
+        if (dataList != null && dataList.length != 0) {
+
+            for (var i = 0; i < dataList.length; i++) {
+                try {
+                    
+                    var _latitudeVal = dataList[i].Latitude;
+                    var _longitudeVal = dataList[i].Longitude;
+                    var _message = dataList[i].Message;
+
+                    MarkLocation(_latitudeVal, _longitudeVal, _message, googleMap);
+
+                }
+                catch (inext) { }
+            } //end for
+
+        }
+
+        googleMap.setZoom(7);
+
+    }
+
+    function LoadMap(mapDivId, latitude, longitude, markerLabel) {
+
+        var mapElementId = document.getElementById(mapDivId);
+
+        var currentLocation = new google.maps.LatLng(37.790234970864, -122.39031314844);
+
+        if (latitude != '' && longitude != '' && latitude != 'undefined' && longitude != 'undefined' && latitude != null && longitude != null) {
+
+            currentLocation = new google.maps.LatLng(latitude, longitude);
+
+        }
+        else {
+
+            latitude = 37.790234970864;
+            longitude = -122.39031314844;
+
+        }
+
+        var newMap = new google.maps.Map(mapElementId, {
+            center: currentLocation,
+            zoom: 13,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        if (markerLabel == null || markerLabel == '') {
+            markerLabel = 'Location';
+        }
+
+        if (latitude != '' && longitude != '') {
+            var point = new google.maps.LatLng(latitude, longitude);
+            if (point) {
+                var marker = new google.maps.Marker({
+                    position: point,
+                    map: newMap,
+                    title: markerLabel
+                });
+                newMap.setCenter(point, 13);
+            }
+        }
+
+    }
+
+    function LoadMapWithMarkLocation(mapDivId, latitude, longitude, message) {
+
+        var myLatlng = new google.maps.LatLng(-25.363882, 131.044922);
+        var mapOptions = {
+            zoom: 13,
+            center: myLatlng
+        };
+
+        var mapElementId = document.getElementById(mapDivId);
+
+        var googleMap = new google.maps.Map(mapElementId, mapOptions);
+
+        if (latitude && longitude) {
+
+            var point = new google.maps.LatLng(latitude, longitude);
+
+            if (point) {
+                var marker = new google.maps.Marker({
+                    position: point,
+                    map: googleMap,
+                    title: message
+                });
+                var infowindow = new google.maps.InfoWindow({
+                    content: message
+                });
+                google.maps.event.addListener(marker, 'mouseover', function () {
+                    infowindow.open(googleMap, marker);
+                });
+                google.maps.event.addListener(marker, 'mouseout', function () {
+                    infowindow.close(googleMap, marker);
+                });
+
+                googleMap.setCenter(point, 13);
+            }
+        }
+        else if (latitude) {
+
+            this.googleMap.setCenter(latitude, 13);
+            if (paramSearchtype == "") {
+                this.googleMap.addOverlay(new GMarker(latitude));
+            }
+
+        }
+
+        googleMap.setZoom(8);
+    }
+
+    $(document).ready(function () {
+
+        $('#btnMapDataList').live('click', function () {
+
+            var _id = 1;
+            var _getUrl = '/Home/GetDataList';
+            var _mapDivId = 'loadMap3';
+            var _postData = "id=" + _id;
+
+            $.ajax({
+                type: "GET",
+                url: _getUrl,
+                data: _postData,
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+
+                    console.log(result);
+
+                    if (result.length != null) {
+
+                        MapLoaderWithMarkLocationListByDivId(_mapDivId, result);
+
+                    }
+                },
+                error: function (objAjaxRequest, strError) {
+                    var respText = objAjaxRequest.responseText;
+                    console.log(respText);
+                }
+            });
+
+
+        });
+
+        $(".ddlDistrict").change(function () {
+            var _value = this.value;
+            console.log(_value);
+
+            var _id = 1;
+            var _getUrl = '/Home/GetDistrictList';
+            var _mapDivId = 'loadMap';
+            var _postData = "id=" + _value;
+
+            $.ajax({
+                type: "GET",
+                url: _getUrl,
+                data: _postData,
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+
+                    console.log(result);
+
+                    if (result.length != null) {
+
+                        MapLoaderWithMarkLocationListByDivId(_mapDivId, result);
+
+                    }
+                },
+                error: function (objAjaxRequest, strError) {
+                    var respText = objAjaxRequest.responseText;
+                    console.log(respText);
+                }
+            });
+
+        });
+
+        $(".ddlUpazila").change(function () {
+            var _value = this.value;
+            console.log(_value);
+
+            var _id = 1;
+            var _getUrl = '/Home/GetUpazilaList';
+            var _mapDivId = 'loadMap';
+            var _postData = "id=" + _value;
+
+            $.ajax({
+                type: "GET",
+                url: _getUrl,
+                data: _postData,
+                contentType: 'application/json; charset=utf-8',
+                success: function (result) {
+
+                    console.log(result);
+
+                    if (result.length != null) {
+
+                        MapLoaderWithMarkLocationListByDivId(_mapDivId, result);
+
+                    }
+                },
+                error: function (objAjaxRequest, strError) {
+                    var respText = objAjaxRequest.responseText;
+                    console.log(respText);
+                }
+            });
+
+        });
+
+    });
+
+</script>
