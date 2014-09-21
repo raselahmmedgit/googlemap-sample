@@ -29,6 +29,12 @@ namespace RnD.GoogleMapSample.Controllers
             return View();
         }
 
+        //responsive images
+        public ActionResult ImgRes()
+        {
+            return View();
+        }
+
         public JsonResult GetDataList(int id)
         {
             var googleMapViewModelList = new List<GoogleMapViewModel>

@@ -101,6 +101,7 @@
     <Content Include="Content\Images\App\setting.png" />
     <Content Include="Content\Images\App\twitter.png" />
     <Content Include="Content\Images\menu.png" />
+    <Content Include="Content\Images\nahid.jpg" />
     <Content Include="Content\Images\sub-menu.png" />
     <Content Include="Content\Images\success-bg.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -190,6 +191,7 @@
   <ItemGroup>
     <None Include="Scripts\jquery-2.0.3.min.map" />
     <Content Include="Views\Home\LoadDdl.cshtml" />
+    <Content Include="Views\Home\ImgRes.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
